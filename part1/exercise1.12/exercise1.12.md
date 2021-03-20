@@ -1,5 +1,12 @@
 # 1.12: Hello, frontend!
 
+Commands:
+```
+$ git clone --depth 1 https://github.com/docker-hy/material-applications.git
+
+$ cd material-applications/example-frontend/
+```
+
 Dockerfile:
 ```
 FROM debian:stable-slim
@@ -7,19 +14,18 @@ EXPOSE 5000
 WORKDIR /frontend
 
 # install prerequisites
-RUN apt-get update && apt-get install -y curl git
+RUN apt-get update && apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
 RUN apt install -y nodejs
 RUN npm install -g serve
 
-# clone the project
-RUN git clone --depth 1 --filter=blob:none --no-checkout https://github.com/docker-hy/material-applications.git
-RUN cd material-applications && git checkout main -- example-frontend
+# copy the project to the image
+COPY . .
 
 # build
-RUN cd material-applications/example-frontend && npm install && npm run build
+RUN npm install && npm run build
 
-CMD ["serve","-s","-l","5000","material-applications/example-frontend/build"]
+CMD ["serve","-s","-l","5000","build"]
 ```
 
 Commands:
