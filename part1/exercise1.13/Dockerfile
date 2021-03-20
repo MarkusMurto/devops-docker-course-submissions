@@ -1,14 +1,3 @@
-# 1.13: Hello, backend! 
-
-Commands:
-```
-$ git clone --depth 1 https://github.com/docker-hy/material-applications.git
-
-$ cd material-applications/example-backend/
-```
-
-Dockerfile:
-```
 FROM debian:stable-slim
 EXPOSE 8080
 WORKDIR /backend
@@ -25,15 +14,3 @@ COPY . .
 RUN go build
 
 CMD ["./server"]
-```
-
-Commands:
-```
-$ docker build . -t example-backend
-
-$ docker run -it -p 80:8080 example-backend
-
-$ curl localhost/ping
-pong
-```
-
