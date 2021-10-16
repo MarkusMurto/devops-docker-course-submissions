@@ -8,11 +8,10 @@ services:
     ports:
       - 5000:5000
     environment:
-      - REDIS_HOST=172.16.0.4
+      - REDIS_HOST=172.16.0.2
     command: ./server
-    networks:
-      default:
-        ipv4_address: 172.16.0.2
+    depends_on:
+      - example-frontend
 
   example-frontend:
     build:
@@ -21,21 +20,11 @@ services:
     ports:
       - 8080:8080
     command: /usr/bin/serve -s -l 5000 build
-    networks:
-      default:
-        ipv4_address: 172.16.0.3
+    depends_on:
+      - redis
 
   redis:
     image: redis:latest
     ports:
       - 6379:6379
-    networks:
-      default:
-        ipv4_address: 172.16.0.4
-
-networks:
-  default:
-    ipam:
-      config:
-        - subnet: 172.16.0.0/24
 
